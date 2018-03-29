@@ -17,7 +17,7 @@ class series(baseObject):
 		return self.name
 	start_date = models.DateTimeField()
 	end_date = models.DateTimeField()
-	
+
 
 class match(baseObject):
 	opposition = models.CharField(max_length=200)
@@ -29,15 +29,15 @@ class match(baseObject):
 		return '{0} @ {1} - {2}'.format(self.opposition,self.location,self.match_series)
 	def has_kicked_off(self):
 		now = timezone.now()
-		return now - datetime.timedelta(days=1) <= self.kick_off_time <= now
+		return self.kick_off_time <= now
 	opposition_score = models.IntegerField(default=0)
 	our_score = models.IntegerField(default=0)
 	@property
 	def result(self):
 		if self.has_kicked_off():
-			if opposition_score > our_score:
+			if self.opposition_score > self.our_score:
 				return 'opposition'
-			elif opposition_score < our_score:
+			elif self.opposition_score < self.our_score:
 				return 'us'
 			else:
 				return 'draw'
