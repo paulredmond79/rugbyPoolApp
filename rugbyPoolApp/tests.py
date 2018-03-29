@@ -1,14 +1,25 @@
 from django.test import TestCase
 import datetime
+from django.contrib.auth.models import User
 
 # Create your tests here.
 from .models import *
+
+def create_user():
+	return User.objects.create_user(username='john',
+                                 email='jlennon@beatles.com',
+                                 password='glass onion')
 
 def create_series(name,length_days):
 	return series.objects.create(name=name,start_date=timezone.now(),end_date= timezone.now() + datetime.timedelta(days=length_days))
 
 def create_match(opposition,match_series,kick_off_time,location):
 	return match.objects.create(opposition=opposition,match_series=match_series,kick_off_time=kick_off_time,location=location)
+
+def create_prediction(our_score,opposition_score):
+	test_series=create_series('TestSeries',50)
+	past_match = create_match('England',test_series,timezone.now() - datetime.timedelta(days=1),'Twickenham')
+	return prediction.objects.create(user=create_user(),our_score=our_score,opposition_score=opposition_score,prediction_match=past_match)
 
 
 class matchModelTests(TestCase):
@@ -50,3 +61,26 @@ class matchModelTests(TestCase):
 		past_match.opposition_score = 10
 		past_match.our_score = 15
 		self.assertEqual(past_match.result,'us')
+
+class predictionTests(TestCase):
+	def test_prediction_exact_score(self):
+		test_prediction = create_prediction(10,15)
+		test_prediction.prediction_match.our_score = 10
+		test_prediction.prediction_match.opposition_score = 15
+		self.assertEqual(test_prediction.distance,0)
+	def test_prediction_correct_result(self):
+		test_prediction = create_prediction(10,15)
+		test_prediction.prediction_match.our_score = 11
+		test_prediction.prediction_match.opposition_score = 16
+		self.assertEqual(test_prediction.correct_result, True)
+
+	def test_prediction_incorrect_result(self):
+		test_prediction = create_prediction(10,15)
+		test_prediction.prediction_match.our_score = 11
+		test_prediction.prediction_match.opposition_score = 9
+		self.assertEqual(test_prediction.correct_result, False)
+	def test_prediction_distance(self):
+		test_prediction = create_prediction(10,10)
+		test_prediction.prediction_match.our_score = 10
+		test_prediction.prediction_match.opposition_score = 15
+		self.assertEqual(test_prediction.distance,5)

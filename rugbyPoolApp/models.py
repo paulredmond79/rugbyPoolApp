@@ -2,6 +2,7 @@ from django.db import models
 import datetime
 from django.utils import timezone
 from django.contrib.auth.models import User
+import math
 
 
 # Create your models here.
@@ -55,3 +56,24 @@ class prediction(baseObject):
 	@property
 	def name(self):
 		return '{0} - {1}'.format(self.user,self.prediction_match.name)
+	@property
+	def distance(self):
+		if self.prediction_match.has_kicked_off():
+			return math.sqrt(math.pow(self.prediction_match.our_score - self.our_score,2) + math.pow(self.prediction_match.opposition_score - self.opposition_score,2))
+		else:
+			return None
+	@property
+	def predicted_result(self):
+		if self.opposition_score > self.our_score:
+			return 'opposition'
+		elif self.opposition_score < self.our_score:
+			return 'us'
+		else:
+			return 'draw'
+	@property
+	def correct_result(self):
+		if self.prediction_match.has_kicked_off():
+			return self.predicted_result == self.prediction_match.result
+
+		else:
+			return None
