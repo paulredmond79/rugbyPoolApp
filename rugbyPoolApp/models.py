@@ -44,6 +44,8 @@ class match(baseObject):
 				return 'draw'
 		else:
 			return None
+	def __str__(self):
+		return self.name
 
 
 class prediction(baseObject):
@@ -77,3 +79,5 @@ class prediction(baseObject):
 
 		else:
 			return None
+	def __str__(self):
+		return self.name
