@@ -1,0 +1,11 @@
+
+<p>{{ series_name }}</p>
+{% if match_set %}
+    <ul>
+    {% for match in match_set %}
+        <li><a href="../../match/{{ match.id }}/">{{ match.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No matches are available.</p>
+{% endif %}

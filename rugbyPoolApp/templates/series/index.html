@@ -1,0 +1,42 @@
+{% extends "../base.html" %}
+{% block title %}Rugby Series{% endblock %}
+
+{% block content %}
+{% if series_list %}
+    <table id="table_id" class="display">
+        <thead>
+            <tr>
+              <th>Series Name</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for series in series_list %}
+          <tr>
+            <td>
+                {{ series.name }}
+            </td>
+          </tr>
+    {% endfor %}
+        </tbody>
+      </table>
+{% else %}
+  <div class="col-sm-6 col-md-4 col-lg-2">
+    <p>No series are available.</p>
+  </div>
+{% endif %}
+</div>
+
+
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jq-3.2.1/dt-1.10.16/datatables.min.css"/>
+
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs/jq-3.2.1/dt-1.10.16/datatables.min.js"></script>
+
+<script>
+  $(document).ready( function () {
+    $('#table_id').DataTable();
+  } );
+</script>
+
+{% endblock %}
+
