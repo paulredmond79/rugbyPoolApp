@@ -4,10 +4,11 @@ This project is a small Django application. Below are quick steps to get it runn
 
 ## Install dependencies
 
-It is recommended to use a virtual environment. Once activated, install Django:
+It is recommended to use a virtual environment. Once activated, install the
+project dependencies:
 
 ```bash
-pip install django
+pip install -r requirements.txt
 ```
 
 ## Apply database migrations
@@ -34,5 +35,19 @@ Execute the test suite with:
 
 ```bash
 python manage.py test
+```
+
+## Docker
+
+You can also run the application in a Docker container. Build the image with:
+
+```bash
+docker build -t rugbypoolapp .
+```
+
+Start the container (migrations run automatically):
+
+```bash
+docker run -p 8000:8000 rugbypoolapp
 ```
 
