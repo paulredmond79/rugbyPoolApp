@@ -49,7 +49,7 @@ class match(baseObject):
 
 
 class prediction(baseObject):
-	"""docstring for prediction"""
+	"""Represents a user's score prediction for a match."""
 
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	prediction_match = models.ForeignKey(match, on_delete=models.CASCADE)
