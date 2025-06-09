@@ -39,7 +39,7 @@ class matchModelTests(TestCase):
 		test_series = create_series('Six Nations 2018',25)
 		past_match = create_match('England',test_series,timezone.now() - datetime.timedelta(days=1),'Twickenham')
 		self.assertEqual(past_match.has_kicked_off(), True)
-	def test_past_match_has_kicked_result_not_none(self):
+	def test_past_match_has_kicked_off_result_not_none(self):
 		test_series = create_series('Six Nations 2018',25)
 		past_match = create_match('England',test_series,timezone.now() - datetime.timedelta(days=1),'Twickenham')
 		self.assertNotEqual(past_match.result,None)
