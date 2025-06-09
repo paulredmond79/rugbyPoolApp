@@ -1,6 +1,7 @@
 from django.test import TestCase
 import datetime
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 # Create your tests here.
 from .models import *
