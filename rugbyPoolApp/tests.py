@@ -84,3 +84,7 @@ class predictionTests(TestCase):
 		test_prediction.prediction_match.our_score = 10
 		test_prediction.prediction_match.opposition_score = 15
 		self.assertEqual(test_prediction.distance,5)
+	def test_prediction_distance_future_match(self):
+		test_prediction = create_prediction(10,10)
+		test_prediction.prediction_match.kick_off_time = timezone.now() + datetime.timedelta(days=1)
+		self.assertEqual(test_prediction.distance, None)
